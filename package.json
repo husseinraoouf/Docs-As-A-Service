@@ -1,0 +1,24 @@
+{
+  "name": "docs-as-a-service",
+  "version": "1.0.0",
+  "engines": {
+    "node": "8.8.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server-express": "^1.2.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "graphql": "^0.11.7",
+    "graphql-tools": "^2.7.2",
+    "mongodb": "^2.2.33"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/husseinraoouf/Project-A-back"
+  }
+}
