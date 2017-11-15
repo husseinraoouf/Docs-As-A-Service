@@ -47,7 +47,7 @@ const typeDefs = `
         user: User!
         token: String!
     }
-
+    
     type linkedAccount {
         provider: String!
         email: String!
@@ -165,7 +165,7 @@ const typeDefs1 = `
         createLink(name: String!, description: String!, url: String!, skillID: String!): Link!
         createVote(linkID: String!): Vote!
         signinUser(authProvider: AUTH_PROVIDER_EMAIL): SigninPayload!
-
+        
         deleteUser(id: String!): Status!
         deleteField(id: String!): Status!
         deleteTrack(id: String!): Status!
@@ -191,7 +191,7 @@ const typeDefs1 = `
         description: String!
         tracks: [Track]!
     }
-
+    
     type Track {
         id: ID!
         field: Field
@@ -201,8 +201,8 @@ const typeDefs1 = `
         madeBy: User!
         registeredStudents: [User]!
     }
-
-
+    
+    
     type Skill {
         id: ID!
         name: String!
@@ -211,6 +211,7 @@ const typeDefs1 = `
         level: Level!
         links: [Link]!
     }
+    
 
     type Link {
         id: ID!
@@ -274,7 +275,7 @@ const typeDefs1 = `
         token: String
         user: User
     }
-
+    
     enum Level {
         BEGINNER
         INTERMEDIATE

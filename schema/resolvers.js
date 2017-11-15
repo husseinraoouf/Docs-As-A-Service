@@ -105,7 +105,7 @@ module.exports = {
         },
 
         signinUser: async (root, data, { sessionDB: { login } }) => {
-
+            
             return await login(data);
         },
 
@@ -118,7 +118,7 @@ module.exports = {
         },
 
         signinUserFromSocial: async (root, data, { sessionDB: { signinUserFromSocial } }) => {
-
+            
             return await signinUserFromSocial(data);
         },
 
@@ -126,31 +126,31 @@ module.exports = {
 
 
         createField: async (root, data, { fieldDB: { createField }, jwt }) => {
-            return await createField(data, jwt);
+            return await createField(data, jwt);            
         },
 
         updateField: async (root, data, { fieldDB: { updateField }, jwt }) => {
-            return await updateField(data, jwt);
+            return await updateField(data, jwt);    
         },
 
 
         deleteField: async (root, data, { fieldDB: { deleteField }, jwt }) => {
-            return await deleteField(data, jwt);
+            return await deleteField(data, jwt);            
         },
 
-
+        
 
 
         createTrack: async (root, data, { trackDB: { createTrack }, jwt }) => {
-            return await createField(data, jwt);
+            return await createField(data, jwt);            
         },
 
         updateTrack: async (root, data, { trackDB: { updateTrack }, jwt }) => {
-            return await updateField(data, jwt);
+            return await updateField(data, jwt);    
         },
 
         deleteTrack: async (root, data, { trackDB: { deleteTrack }, jwt }) => {
-            return await deleteField(data, jwt);
+            return await deleteField(data, jwt);            
         },
 
 

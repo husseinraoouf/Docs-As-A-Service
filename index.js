@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const schema = require('./schema');
+const { decodeJWT } = require('./lib/hash');
 const cors = require('cors');
 
 
@@ -16,8 +17,10 @@ const start = async () => {
     app.use(cors());
 
     const buildOptions = (req, res) => {
+        const HEADER_REGEX = /bearer (.*)$/i;
+        const jwt = ( req.headers.authorization && req.headers.authorization != "null" && HEADER_REGEX.exec(req.headers.authorization)[1] ) || null;
         return {
-            context: { ...DB}, // This context object is passed to all resolvers.
+            context: { ...DB, jwt}, // This context object is passed to all resolvers.
             schema,
         };
     };

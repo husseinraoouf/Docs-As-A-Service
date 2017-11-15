@@ -1,2 +1,0 @@
-Docs As A Service
------------------
