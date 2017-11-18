@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const schema = require('./schema');
-const { decodeJWT } = require('./lib/hash');
 const cors = require('cors');
+const reactViews = require('express-react-views');
 
 
 // 1
@@ -15,6 +15,10 @@ const start = async () => {
     const DB = await connectDB();
     var app = express();
     app.use(cors());
+
+    app.use(express.static(__dirname + '/views'));
+    app.use(express.static(__dirname + '/public'));
+
 
     const buildOptions = (req, res) => {
         const HEADER_REGEX = /bearer (.*)$/i;
@@ -30,6 +34,15 @@ const start = async () => {
     app.use('/graphiql', graphiqlExpress({
         endpointURL: '/graphql',
     }));
+
+
+
+
+    app.get('/', function(req, res) {
+      res.sendFile('index.html');
+    });
+
+
 
     const PORT = process.argv[2] || 5000;
     app.listen(PORT, () => {

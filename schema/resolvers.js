@@ -1,3 +1,12 @@
+const { GraphQLScalarType } = require('graphql'),
+      { Kind } = require('graphql/language'),
+      { URL } = require('url'),
+      {
+        parseResolveInfo,
+        simplifyParsedResolveInfoFragmentWithType
+      } = require('graphql-parse-resolve-info'),
+      schemaChecker = require('../lib/schemaChecker.js');
+
 function buildFilters({
     OR = [],
     AND = [],
@@ -82,106 +91,91 @@ function buildFilters({
     return filters;
 }
 
+
+function buildProjection(resolveInfo) {
+    var pro = {};
+
+    const parsedResolveInfoFragment = parseResolveInfo(
+      resolveInfo
+    );
+    const simplifiedFragment = simplifyParsedResolveInfoFragmentWithType(
+      parsedResolveInfoFragment,
+      resolveInfo.returnType
+    );
+
+    for (const x in simplifiedFragment.fieldsByTypeName) {
+      for (const y in simplifiedFragment.fieldsByTypeName[x]) {
+        if(!pro[y]) pro[y] = 1;
+      }
+    }
+
+    return pro;
+}
+
+
+
+function UrlValue(value) {
+  try {
+    new URL(value);
+    return value
+  } catch (error) {
+    return null
+  }
+}
+
+
 module.exports = {
     Query: {
-        allUsers: async (root, data, { userDB: { getAll } }) => {
-            return await getAll()
-        },
+      allkeyword: async (root, data, { keywordDB: { getAll } }, resolveInfo) => {
+          return await getAll({},buildProjection(resolveInfo));
+      },
 
-        session: async (root, data, { jwt, sessionDB: { getByToken } }) => {
-            return await getByToken(jwt);
-        },
-
-        allFields: async (root, data, { fieldDB: { getAll } }) => {
-            return await getAll()
-        },
+      keyword: async (root, data, { keywordDB: { getOneByID } }, resolveInfo) => {
+          return await getOneByID(data,buildProjection(resolveInfo));
+      },
 
     },
 
     Mutation: {
-        createUser: async (root, data, { userDB: { createUser } }) => {
 
-            return await createUser(data);
-        },
+      createKeyword: async (root, data, { keywordDB: { createKeyword } }, resolveInfo) => {
+        console.log(data);
+        if (schemaChecker(data.Data)) return await createKeyword(data)
+        else return null
+      },
 
-        signinUser: async (root, data, { sessionDB: { login } }) => {
-            
-            return await login(data);
-        },
+      updateKeyword: async (root, data, { keywordDB: { updateOneByID } }, resolveInfo) => {
+        if (schemaChecker(data.Data)) return await updateOneByID(data);
+        else return null
+      },
 
-        updateUser: async (root, data, { userDB: { updateUser }, jwt }) => {
-            return await updateUser(data, jwt);
-        },
-
-        deleteUser: async (root, data, { userDB: { deleteUser }, jwt }) => {
-            return await deleteUser(data, jwt);
-        },
-
-        signinUserFromSocial: async (root, data, { sessionDB: { signinUserFromSocial } }) => {
-            
-            return await signinUserFromSocial(data);
-        },
-
-
-
-
-        createField: async (root, data, { fieldDB: { createField }, jwt }) => {
-            return await createField(data, jwt);            
-        },
-
-        updateField: async (root, data, { fieldDB: { updateField }, jwt }) => {
-            return await updateField(data, jwt);    
-        },
-
-
-        deleteField: async (root, data, { fieldDB: { deleteField }, jwt }) => {
-            return await deleteField(data, jwt);            
-        },
-
-        
-
-
-        createTrack: async (root, data, { trackDB: { createTrack }, jwt }) => {
-            return await createField(data, jwt);            
-        },
-
-        updateTrack: async (root, data, { trackDB: { updateTrack }, jwt }) => {
-            return await updateField(data, jwt);    
-        },
-
-        deleteTrack: async (root, data, { trackDB: { deleteTrack }, jwt }) => {
-            return await deleteField(data, jwt);            
-        },
-
-
-
+      deleteKeyword: async (root, data, { keywordDB: { deleteOneByID } }, resolveInfo) => {
+        return await deleteOneByID(data);
+      },
     },
 
-    User: {
+
+    HTMLTag: {
         id: root => root._id || root.id,
-
-        sessions: async (root, _, { sessionDB: { getByUserID } }) => {
-
-            return await getByUserID(root._id);
-        },
-
     },
 
-
-    Session: {
-
-        id: root => root._id || root.id,
-
-        user: async (root, _, { userDB: { getByID } }) => {
-
-            return await getByID(root.userID);
-        },
-    },
-
-
-    Field: {
+    HTMLAttribute: {
         id: root => root._id || root.id,
     },
 
 
+    Url: new GraphQLScalarType({
+      name: 'Url',
+      description: 'Url custom scalar type',
+      parseValue: UrlValue,
+      serialize: UrlValue,
+      parseLiteral(ast) {
+        if (ast.kind === Kind.STRING) {
+          return oddValue(value);
+        }
+        return null;
+      },
+    }),
 };
+
+

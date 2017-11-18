@@ -4,10 +4,7 @@ const {
 
 const buildDataloaders = require('./dataloaders');
 
-const buildUser = require('./user');
-const buildSession = require('./session');
-const buildTrack = require('./track');
-const buildField = require('./field');
+const buildKeyword = require('./keywords');
 
 // 1
 const { MONGO_URL } = require('../lib/consts');
@@ -16,26 +13,16 @@ const { MONGO_URL } = require('../lib/consts');
 module.exports = async() => {
   const db = await MongoClient.connect(MONGO_URL);
   const col = {
-    Users: db.collection('Users'),
-    Sessions: db.collection('Sessions'),
-    Fields: db.collection('Fields'),
-    Tracks: db.collection('Tracks'),
-    SuggestedLinks: db.collection('SuggestedLinks'),
+    Keywords: db.collection('Keywords'),
   };
 
   const dataloaders = buildDataloaders(col);
 
-  const userDB = buildUser(col, dataloaders);
-  const sessionDB = buildSession(col, dataloaders);
-  const trackDB = buildTrack(col, dataloaders);
-  const fieldDB = buildField(col, dataloaders);
+  const keywordDB = buildKeyword(col, dataloaders);
 
 
   return {
-    userDB,
-    sessionDB,
-    trackDB,
-    fieldDB,
+    keywordDB,
   }
 
 }

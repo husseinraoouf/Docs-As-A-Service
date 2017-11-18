@@ -1,0 +1,27 @@
+body {
+  padding: 100px 0;
+  font-family: Helvetica Neue, Helvetica;
+  background: #f7f7f7;
+}
+
+
+h4 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 30px;
+}
+
+h5 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 25px;
+}
+
+.codemi {
+  width: 100%;
+  display: inline-block;
+}
+
+input, select, textarea {
+  margin: 20px 0;
+}
