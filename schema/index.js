@@ -82,8 +82,8 @@ const typeDefs = `
     type Attribute{
         name: String
         status: Status
-        details: String
-        note: String
+        detail: String
+        notes: String
     }
 
 
@@ -98,8 +98,8 @@ const typeDefs = `
     input inputAttribute{
         name: String
         status: Status
-        details: String
-        note: String
+        detail: String
+        notes: String
     }
 
     input keywordInput {
