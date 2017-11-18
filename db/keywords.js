@@ -15,11 +15,11 @@ module.exports = ({ Keywords }, { userByID }) => {
         return result;
     }
 
-    methods.getOneByID = async (data, pro) => {
+    methods.getOne = async (data, pro) => {
 
         if(data.id) {
             data = { _id: new ObjectID(data.id) }
-        } else if ( !(data.keyword && data.keywordkind) ) {
+        } else if ( !(data.keyword && data.keywordkind && data.language) ) {
             return null;
         }
 

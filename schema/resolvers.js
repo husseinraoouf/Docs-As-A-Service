@@ -130,8 +130,8 @@ module.exports = {
           return await getAll({},buildProjection(resolveInfo));
       },
 
-      keyword: async (root, data, { keywordDB: { getOneByID } }, resolveInfo) => {
-          return await getOneByID(data,buildProjection(resolveInfo));
+      keyword: async (root, data, { keywordDB: { getOne } }, resolveInfo) => {
+          return await getOne(data,buildProjection(resolveInfo));
       },
 
     },

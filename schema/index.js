@@ -9,7 +9,7 @@ const resolvers = require('./resolvers');
 const typeDefs = `
     type Query {
         allkeyword: [Keyword]
-        keyword(id: String, keyword: String, keywordkind: String): Keyword
+        keyword(id: String, keyword: String, keywordkind: String, language: String): Keyword
     }
 
     type Mutation {
@@ -30,6 +30,7 @@ const typeDefs = `
         id: ID!
         keyword: String!
         keywordkind: keywordKind!
+        language: String!
         status: Status
         link: Url
         difintion: String
