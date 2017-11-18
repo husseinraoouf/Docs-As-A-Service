@@ -22,6 +22,7 @@ const typeDefs = `
         id: ID!
         keyword: String!
         keywordkind: keywordKind!
+        language: String!
         status: Status
         link: Url
     }
@@ -42,6 +43,7 @@ const typeDefs = `
         id: ID!
         keyword: String!
         keywordkind: keywordKind!
+        language: String!
         status: Status
         link: Url
         tags: [String!]
