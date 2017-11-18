@@ -3,8 +3,6 @@ const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const schema = require('./schema');
 const cors = require('cors');
-const reactViews = require('express-react-views');
-
 
 // 1
 const connectDB = require('./db');
